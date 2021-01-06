@@ -1,12 +1,13 @@
 # IronSource Ads for Flutter
 
 Flutter plugin for showing [IronSource](https://ironsrc.com) ads (Android only)
+
 ## Progress
+
 - [x] Interstitial
 - [ ] Banner (Still experimenting)
 - [x] Offerwall
 - [x] Rewarded video
-
 
 # Using Examples
 
@@ -17,7 +18,7 @@ Flutter plugin for showing [IronSource](https://ironsrc.com) ads (Android only)
     var userId = await IronSource.getAdvertiserId();
     await IronSource.validateIntegration();
     await IronSource.setUserId(userId);
-    await IronSource.initialize(appKey: "appKey", listener: this, 
+    await IronSource.initialize(appKey: "appKey", listener: this,
                       gdprConsent: true, ccpaConsent: false);
     rewardeVideoAvailable = await IronSource.isRewardedVideoAvailable();
     offerwallAvailable = await IronSource.isOfferwallAvailable();
@@ -25,7 +26,8 @@ Flutter plugin for showing [IronSource](https://ironsrc.com) ads (Android only)
   }
 
 ```
-*By default gdprConsent and ccpaConsent are true*
+
+_By default gdprConsent and ccpaConsent are true_
 
 ## Interstitial
 
@@ -68,7 +70,7 @@ Flutter plugin for showing [IronSource](https://ironsrc.com) ads (Android only)
       interstitialReady = false;
     });
 
- 
+
   }
 
   @override
@@ -77,7 +79,7 @@ Flutter plugin for showing [IronSource](https://ironsrc.com) ads (Android only)
     setState(() {
       interstitialReady = true;
     });
-  
+
   }
 
   @override
@@ -105,10 +107,11 @@ Flutter plugin for showing [IronSource](https://ironsrc.com) ads (Android only)
     }
   }
 ```
+
 ```dart
   @override
   void onRewardedVideoAdClicked(Placement placement) {
-   
+
     print("onRewardedVideoAdClicked");
   }
 
@@ -134,10 +137,10 @@ Flutter plugin for showing [IronSource](https://ironsrc.com) ads (Android only)
 
     print("onRewardedVideoAdRewarded: ${placement.placementName}");
   }
- 
+
   @override
   void onRewardedVideoAdShowFailed(IronSourceError error) {
-  
+
     print("onRewardedVideoAdShowFailed : ${error.toString()}");
   }
 
@@ -148,7 +151,7 @@ Flutter plugin for showing [IronSource](https://ironsrc.com) ads (Android only)
 
   @override
   void onRewardedVideoAvailabilityChanged(bool available) {
-   
+
     print("onRewardedVideoAvailabilityChanged : $available");
     setState(() {
       rewardeVideoAvailable = available;
@@ -209,6 +212,7 @@ class BannerAdListener extends IronSourceBannerListener {
     }
   }
 ```
+
 ```dart
   @override
   void onGetOfferwallCreditsFailed(IronSourceError error) {
@@ -248,15 +252,20 @@ class BannerAdListener extends IronSourceBannerListener {
 ```
 
 ## Update AndroidManifest.xml
+
 ### Manifest Permissions
+
 Add the following permissions to your AndroidManifest.xml file inside the manifest tag but outside the `<application>` tag:
+
 ```xml
 <uses-permission android:name="android.permission.INTERNET" />
 <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 ```
 
 ### Manifest Activities
+
 Add the following activities inside the `<application>` tag in your AndroidManifest:
+
 ```xml
 <activity
             android:name="com.ironsource.sdk.controller.ControllerActivity"
@@ -274,28 +283,62 @@ Add the following activities inside the `<application>` tag in your AndroidManif
             android:theme="@android:style/Theme.Translucent" />
 ```
 
-
-## add Google Play Services
-Add the following  inside the <application> tag in your AndroidManifest:
-```xml
-<meta-data android:name="com.google.android.gms.version"
-android:value="@integer/google_play_services_version" />
+## Add IronSource SDK
+File `build.gradle`:
+```gradle
+dependencies {
+  implementation 'com.ironsource.sdk:mediationsdk:7.0.4.1'
+  ...
+}
 ```
 
+## add Google Play Services
+
+Add `xmlns:tools="http://schemas.android.com/tools"` on top for replace label.
+
+```xml
+  <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.metamorfosis_labs.flutter_ironsource_x_example">
+```
+
+Add `tools:replace="android:label"` at the `<application>` tag
+
+```xml
+<application
+        tools:replace="android:label"
+        android:name="io.flutter.app.FlutterApplication"
+        android:label="flutter_ironsource_x_example"
+        android:networkSecurityConfig="@xml/network_security_config"
+        android:usesCleartextTraffic="true"
+        android:icon="@mipmap/ic_launcher">
+```
+
+Add the following inside the `<application>` tag in your AndroidManifest:
+
+```xml
+<meta-data
+  android:name="com.google.android.gms.ads.APPLICATION_ID"
+  android:value="ca-app-pub-xxxxxxxxxxxxxxxx~yyyyyyyyyy"/>
+
+<meta-data android:name="com.google.android.gms.version"
+  android:value="@integer/google_play_services_version" />
+```
 
 please read [this](https://developer.android.com/google/play-services/setup.html) to add google play service
 
 ## Mediatin
+
 follow [this](https://developers.ironsrc.com/ironsource-mobile/android/mediation-networks-android/) to add mediation sdks
 
-
 ## Using this plugin
+
 see directory example
 
 Visit [IronSource](https://developers.ironsrc.com/ironsource-mobile/android/android-sdk/) website to know more
 
-
 ## Contributing
+
 Thanks to @karnadii & @DiMiTriFrog
 
 I will continue updating this library.
