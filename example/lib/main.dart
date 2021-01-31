@@ -10,7 +10,8 @@ class MyApp extends StatefulWidget {
   _MyAppState createState() => _MyAppState();
 }
 
-class _MyAppState extends State<MyApp> with IronSourceListener , WidgetsBindingObserver {
+class _MyAppState extends State<MyApp>
+    with IronSourceListener, WidgetsBindingObserver {
   final String appKey = "xxxxxxxx"; // change this with your appKey
 
   bool rewardeVideoAvailable = false,
@@ -26,31 +27,29 @@ class _MyAppState extends State<MyApp> with IronSourceListener , WidgetsBindingO
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    switch(state){
-
+    switch (state) {
       case AppLifecycleState.resumed:
         IronSource.activityResumed();
         break;
       case AppLifecycleState.inactive:
-      // TODO: Handle this case.
+        // TODO: Handle this case.
         break;
       case AppLifecycleState.paused:
-      // TODO: Handle this case.
+        // TODO: Handle this case.
         IronSource.activityPaused();
         break;
       case AppLifecycleState.detached:
-      // TODO: Handle this case.
+        // TODO: Handle this case.
         break;
     }
   }
 
   void init() async {
     var userId = await IronSource.getAdvertiserId();
-    print(userId);
-    print("DODOL");
     await IronSource.validateIntegration();
     await IronSource.setUserId(userId);
-    await IronSource.initialize(appKey: appKey, listener: this, gdprConsent: true);
+    await IronSource.initialize(
+        appKey: appKey, listener: this, gdprConsent: true);
     rewardeVideoAvailable = await IronSource.isRewardedVideoAvailable();
     setState(() {});
   }
@@ -61,6 +60,7 @@ class _MyAppState extends State<MyApp> with IronSourceListener , WidgetsBindingO
 
   void showInterstitial() async {
     if (await IronSource.isInterstitialReady()) {
+      showHideBanner();
       IronSource.showInterstitial();
     } else {
       print(
@@ -71,6 +71,7 @@ class _MyAppState extends State<MyApp> with IronSourceListener , WidgetsBindingO
 
   void showOfferwall() async {
     if (await IronSource.isOfferwallAvailable()) {
+      showHideBanner();
       IronSource.showOfferwall();
     } else {
       print("Offerwall not available");
@@ -79,7 +80,8 @@ class _MyAppState extends State<MyApp> with IronSourceListener , WidgetsBindingO
 
   void showRewardedVideo() async {
     if (await IronSource.isRewardedVideoAvailable()) {
-      IronSource.showRewardedVideol();
+      showHideBanner();
+      IronSource.showRewardedVideo();
     } else {
       print("RewardedVideo not available");
     }
@@ -131,12 +133,13 @@ class _MyAppState extends State<MyApp> with IronSourceListener , WidgetsBindingO
               ),
             ),
 // Banner ad
-            showBanner?
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: IronSourceBannerAd(
-                  keepAlive: true, listener: BannerAdListener()),
-            ):SizedBox()
+            showBanner
+                ? Align(
+                    alignment: Alignment.bottomCenter,
+                    child: IronSourceBannerAd(
+                        keepAlive: true, listener: BannerAdListener()),
+                  )
+                : SizedBox()
           ],
         ),
       ),
@@ -164,8 +167,6 @@ class _MyAppState extends State<MyApp> with IronSourceListener , WidgetsBindingO
     setState(() {
       interstitialReady = false;
     });
-
-
   }
 
   @override
@@ -174,12 +175,10 @@ class _MyAppState extends State<MyApp> with IronSourceListener , WidgetsBindingO
     setState(() {
       interstitialReady = true;
     });
-
   }
 
   @override
   void onInterstitialAdShowFailed(IronSourceError error) {
-
     print("onInterstitialAdShowFailed : ${error.toString()}");
     setState(() {
       interstitialReady = false;
@@ -193,13 +192,11 @@ class _MyAppState extends State<MyApp> with IronSourceListener , WidgetsBindingO
 
   @override
   void onGetOfferwallCreditsFailed(IronSourceError error) {
-
     print("onGetOfferwallCreditsFailed : ${error.toString()}");
   }
 
   @override
   void onOfferwallAdCredited(OfferwallCredit reward) {
-
     print("onOfferwallAdCredited : $reward");
   }
 
@@ -229,38 +226,31 @@ class _MyAppState extends State<MyApp> with IronSourceListener , WidgetsBindingO
 
   @override
   void onRewardedVideoAdClicked(Placement placement) {
-
     print("onRewardedVideoAdClicked");
   }
 
   @override
   void onRewardedVideoAdClosed() {
     print("onRewardedVideoAdClosed");
-
   }
 
   @override
   void onRewardedVideoAdEnded() {
     print("onRewardedVideoAdEnded");
-
-
   }
 
   @override
   void onRewardedVideoAdOpened() {
     print("onRewardedVideoAdOpened");
-
   }
 
   @override
   void onRewardedVideoAdRewarded(Placement placement) {
-
     print("onRewardedVideoAdRewarded: ${placement.placementName}");
   }
 
   @override
   void onRewardedVideoAdShowFailed(IronSourceError error) {
-
     print("onRewardedVideoAdShowFailed : ${error.toString()}");
   }
 
@@ -271,14 +261,12 @@ class _MyAppState extends State<MyApp> with IronSourceListener , WidgetsBindingO
 
   @override
   void onRewardedVideoAvailabilityChanged(bool available) {
-
     print("onRewardedVideoAvailabilityChanged : $available");
     setState(() {
       rewardeVideoAvailable = available;
     });
   }
 }
-
 
 class BannerAdListener extends IronSourceBannerListener {
   @override
@@ -294,7 +282,6 @@ class BannerAdListener extends IronSourceBannerListener {
   @override
   void onBannerAdLoadFailed(Map<String, dynamic> error) {
     print("onBannerAdLoadFailed");
-
   }
 
   @override

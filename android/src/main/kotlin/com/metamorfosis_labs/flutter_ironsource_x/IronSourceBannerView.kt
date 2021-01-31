@@ -27,7 +27,7 @@ class IronSourceBannerView internal constructor(context: Context, id: Int, args:
     private fun loadBanner() {
         if (adView.childCount > 0) adView.removeAllViews()
         val layoutParams = FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,
-                FrameLayout.LayoutParams.MATCH_PARENT)
+                FrameLayout.LayoutParams.WRAP_CONTENT)
         adView.addView(
                 mIronSourceBannerLayout, 0, layoutParams
         )
@@ -83,7 +83,7 @@ class IronSourceBannerView internal constructor(context: Context, id: Int, args:
         this.context = context
         adView = FrameLayout(context)
         // choose banner size
-        val size = ISBannerSize.BANNER
+        val size = ISBannerSize.SMART
         val height = args["height"] as Int
         val width = args["height"] as Int
         val lp = LinearLayout.LayoutParams(width, height)

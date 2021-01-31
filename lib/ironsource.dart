@@ -6,17 +6,25 @@ import 'models.dart';
 export 'banner.dart';
 
 class IronSource {
-  static const MethodChannel _channel = MethodChannel("com.metamorfosis_labs.flutter_ironsource_x");
+  static const MethodChannel _channel =
+      MethodChannel("com.metamorfosis_labs.flutter_ironsource_x");
   static IronSourceListener _listener;
   static IronSourceListener getListener() {
     return _listener;
   }
 
   static Future<Null> initialize(
-      {final String appKey, final IronSourceListener listener, bool gdprConsent  = true, bool ccpaConsent = true}) async {
+      {final String appKey,
+      final IronSourceListener listener,
+      bool gdprConsent = true,
+      bool ccpaConsent = true}) async {
     _listener = listener;
     _channel.setMethodCallHandler(_listener._handle);
-    await _channel.invokeMethod('initialize', {'appKey': appKey, 'gdprConsent': gdprConsent, 'ccpaConsent': ccpaConsent});
+    await _channel.invokeMethod('initialize', {
+      'appKey': appKey,
+      'gdprConsent': gdprConsent,
+      'ccpaConsent': ccpaConsent
+    });
   }
 
   static Future<Null> shouldTrackNetworkState(bool state) async {
@@ -43,7 +51,7 @@ class IronSource {
     await _channel.invokeMethod('showInterstitial');
   }
 
-  static Future<Null> showRewardedVideol() async {
+  static Future<Null> showRewardedVideo() async {
     await _channel.invokeMethod('showRewardedVideo');
   }
 
