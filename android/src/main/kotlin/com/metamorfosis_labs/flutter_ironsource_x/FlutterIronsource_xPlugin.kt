@@ -1,6 +1,9 @@
 package com.metamorfosis_labs.flutter_ironsource_x
 
 import android.app.Activity
+import android.os.Bundle
+import android.util.Log
+import androidx.annotation.NonNull
 import com.ironsource.adapters.supersonicads.SupersonicConfig
 import com.ironsource.mediationsdk.IronSource
 import com.ironsource.mediationsdk.integration.IntegrationHelper
@@ -10,28 +13,37 @@ import com.ironsource.mediationsdk.sdk.InterstitialListener
 import com.ironsource.mediationsdk.sdk.OfferwallListener
 import com.ironsource.mediationsdk.sdk.RewardedVideoListener
 
+import io.flutter.embedding.engine.plugins.FlutterPlugin
+import io.flutter.embedding.engine.plugins.activity.ActivityAware
+import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding
+import io.flutter.plugin.common.BinaryMessenger
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
-import io.flutter.plugin.common.PluginRegistry.Registrar
+import io.flutter.plugin.common.PluginRegistry
 import java.util.*
 
 /** FlutterIronsource_xPlugin */
-class FlutterIronsource_xPlugin(activity: Activity, channel: MethodChannel) : MethodCallHandler, InterstitialListener, RewardedVideoListener, OfferwallListener {
+class FlutterIronsource_xPlugin() : FlutterPlugin, MethodCallHandler, ActivityAware, InterstitialListener, RewardedVideoListener, OfferwallListener {
+  private lateinit var mActivity : Activity
+  private lateinit var mChannel : MethodChannel
+  private lateinit var messenger: BinaryMessenger
+  private lateinit var flutterPluginBinding: FlutterPlugin.FlutterPluginBinding
+
   val TAG = "IronsourcePlugin"
   var APP_KEY = ""
   lateinit var mPlacement: Placement
   val FALLBACK_USER_ID = "userId"
-  val mActivity: Activity
-  val mChannel: MethodChannel
+/*  var mActivity: Activity
+  var mChannel: MethodChannel*/
 
-  init {
+  /*init {
     this.mActivity = activity
     this.mChannel = channel
-  }
+  }*/
 
-  override fun onMethodCall(call: MethodCall, result: Result) {
+  override fun onMethodCall(@NonNull call: MethodCall, @NonNull result: Result) {
     if (call.method == IronSourceConsts.INIT && call.hasArgument("appKey")) {
       call.argument<String>("")
       initialize(call.argument<String>("appKey")!!, call.argument<Boolean>("gdprConsent")!!, call.argument<Boolean>("ccpaConsent")!!)
@@ -251,13 +263,51 @@ class FlutterIronsource_xPlugin(activity: Activity, channel: MethodChannel) : Me
     }
   }
 
-  companion object {
+  /*companion object {
     @JvmStatic
-    fun registerWith(registrar: Registrar) {
+    fun registerWith(registrar: PluginRegistry.Registrar) {
       val channel = MethodChannel(registrar.messenger(), IronSourceConsts.MAIN_CHANNEL)
-      channel.setMethodCallHandler(FlutterIronsource_xPlugin(registrar.activity(), channel))
+      channel.setMethodCallHandler(FlutterIronsource_xPlugin())
       val interstitialAdChannel = MethodChannel(registrar.messenger(), IronSourceConsts.INTERSTITIAL_CHANNEL)
       registrar.platformViewRegistry().registerViewFactory(IronSourceConsts.BANNER_AD_CHANNEL, IronSourceBanner(registrar.activity(), registrar.messenger()))
+  }*/
+
+  /*private companion object Factory {
+    fun setup(plugin: FlutterIronsource_xPlugin, binaryMessenger: BinaryMessenger) {
     }
+  }*/
+
+
+
+  override fun onAttachedToEngine(binding: FlutterPlugin.FlutterPluginBinding) {
+    this.flutterPluginBinding = binding
+    this.mChannel = MethodChannel(binding.binaryMessenger, IronSourceConsts.MAIN_CHANNEL)
+    this.mChannel.setMethodCallHandler(this)
+    Log.i("DEBUG","Tesst On Attached")
+    val interstitialAdChannel = MethodChannel(binding.binaryMessenger, IronSourceConsts.INTERSTITIAL_CHANNEL)
+//    binding.platformViewRegistry.registerViewFactory(IronSourceConsts.BANNER_AD_CHANNEL, IronSourceBanner(this.mActivity, binding.binaryMessenger))
+  }
+
+  override fun onDetachedFromEngine(@NonNull binding: FlutterPlugin.FlutterPluginBinding) {
+    this.mChannel.setMethodCallHandler(null)
+  }
+
+  override fun onAttachedToActivity(binding: ActivityPluginBinding) {
+    this.mActivity = binding.activity;
+    Log.i("DEBUG", "Tesst On Activity")
+    this.flutterPluginBinding.platformViewRegistry.registerViewFactory(IronSourceConsts.BANNER_AD_CHANNEL, IronSourceBanner(binding.activity, this.flutterPluginBinding.binaryMessenger))
+//    registrar.platformViewRegistry().registerViewFactory(IronSourceConsts.BANNER_AD_CHANNEL, IronSourceBanner(this.mActivity, binding.binaryMessenger))
+  }
+
+  override fun onDetachedFromActivityForConfigChanges() {
+    TODO("Not yet implemented")
+  }
+
+  override fun onReattachedToActivityForConfigChanges(binding: ActivityPluginBinding) {
+    TODO("Not yet implemented")
+  }
+
+  override fun onDetachedFromActivity() {
+    TODO("Not yet implemented")
   }
 }

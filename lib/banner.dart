@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -17,8 +19,8 @@ class BannerSize {
 enum BannerSizeType { STANDARD, MEDIUM_ECTANGLE, LARGE }
 
 class IronSourceBannerAd extends StatefulWidget {
-  final Key key;
-  final IronSourceBannerListener listener;
+  final Key? key;
+  final IronSourceBannerListener? listener;
   final bool keepAlive;
   IronSourceBannerAd({
     this.key,
@@ -32,9 +34,9 @@ class IronSourceBannerAd extends StatefulWidget {
 
 class _IronSourceBannerAdState extends State<IronSourceBannerAd>
     with AutomaticKeepAliveClientMixin {
-  static IronSourceBannerListener _listener;
-  static IronSourceBannerListener getListener() {
-    return _listener;
+  static IronSourceBannerListener? _listener;
+  static IronSourceBannerListener? getListener() {
+    return _listener!;
   }
 
   BannerSize size = BannerSize.STANDARD;
@@ -62,8 +64,8 @@ class _IronSourceBannerAdState extends State<IronSourceBannerAd>
 
   void _onBannerAdViewCreated(int id) async {
     final channel = MethodChannel('$BANNER_AD_CHANNEL$id');
-    _listener = widget.listener;
-    channel.setMethodCallHandler(_listener._handle);
+    _listener = widget.listener!;
+    channel.setMethodCallHandler(_listener?._handle);
   }
 
   @override
@@ -71,7 +73,7 @@ class _IronSourceBannerAdState extends State<IronSourceBannerAd>
 }
 
 abstract class IronSourceBannerListener {
-  Future<Null> _handle(MethodCall call) async {
+  Future<dynamic> _handle(MethodCall call) async {
     if (call.method == ON_BANNER_AD_CLICKED)
       onBannerAdClicked();
     else if (call.method == ON_BANNER_AD_LEFT_APPLICATION)

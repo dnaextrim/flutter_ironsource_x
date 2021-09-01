@@ -18,6 +18,9 @@ rootProject.allprojects {
     repositories {
         google()
         maven {
+            url 'https://android-sdk.is.com/'
+        }
+        maven {
             url "https://dl.bintray.com/ironsource-mobile/android-sdk"
         }
 
@@ -51,7 +54,7 @@ android {
         main.java.srcDirs += 'src/main/kotlin'
     }
     defaultConfig {
-        minSdkVersion 19
+        minSdkVersion 21
     }
     lintOptions {
         disable 'InvalidPackage'
@@ -59,7 +62,7 @@ android {
 }
 
 dependencies {
-    implementation 'com.ironsource.sdk:mediationsdk:7.1.0.2'
+    implementation 'com.ironsource.sdk:mediationsdk:7.1.9'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
     implementation 'com.google.android.gms:play-services-ads-identifier:17.0.0'
@@ -70,8 +73,8 @@ dependencies {
 //    implementation 'com.ironsource.adapters:adcolonyadapter:4.3.4'
 //    implementation 'com.adcolony:sdk:4.2.4'
     // Add AdMob Network
-    implementation 'com.google.android.gms:play-services-ads:19.7.0'
-    implementation 'com.ironsource.adapters:admobadapter:4.3.15'
+    implementation 'com.google.android.gms:play-services-ads:20.2.0'
+    implementation 'com.ironsource.adapters:admobadapter:4.3.21'
     // Add Amazon Network
 //    implementation 'com.ironsource.adapters:amazonadapter:4.3.3'
 //    implementation 'com.ironsource.adapters:amazonsdk:6.0.0@jar'
@@ -111,8 +114,8 @@ dependencies {
 //    implementation 'com.ironsource.adapters:tapjoyadapter:4.1.15'
 //    implementation 'com.tapjoy:tapjoy-android-sdk:12.7.1'
     // Add UnityAds Network
-    implementation 'com.ironsource.adapters:unityadsadapter:4.3.9'
-    implementation 'com.unity3d.ads:unity-ads:3.6.0'
+    implementation 'com.ironsource.adapters:unityadsadapter:4.3.13'
+    implementation 'com.unity3d.ads:unity-ads:3.7.5'
     // Add Vungle Network
 //    implementation 'com.ironsource.adapters:vungleadapter:4.3.7'
 //    implementation 'com.vungle:publisher-sdk-android:6.8.1'

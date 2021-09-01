@@ -284,7 +284,9 @@ Add the following activities inside the `<application>` tag in your AndroidManif
 ```
 
 ## Add IronSource SDK
+
 File `build.gradle`:
+
 ```gradle
 dependencies {
   implementation 'com.ironsource.sdk:mediationsdk:7.0.4.1'
@@ -342,3 +344,9 @@ Visit [IronSource](https://developers.ironsrc.com/ironsource-mobile/android/andr
 Thanks to @karnadii & @DiMiTriFrog
 
 I will continue updating this library.
+
+## Support
+
+If this package was helpful to you in delivering on your project or you just wanna to support this project, a cup of coffee would be highly appreciated ;-)
+
+[![Buy me a coffee](https://cdn.buymeacoffee.com/buttons/default-green.png)](https://www.buymeacoffee.com/dnaextrim)
