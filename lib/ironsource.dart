@@ -8,18 +8,18 @@ export 'banner.dart';
 class IronSource {
   static const MethodChannel _channel =
       MethodChannel("com.metamorfosis_labs.flutter_ironsource_x");
-  static IronSourceListener _listener;
-  static IronSourceListener getListener() {
-    return _listener;
+  static IronSourceListener? _listener;
+  static IronSourceListener? getListener() {
+    return _listener!;
   }
 
-  static Future<Null> initialize(
-      {final String appKey,
-      final IronSourceListener listener,
+  static FutureOr<dynamic> initialize(
+      {final String? appKey,
+      final IronSourceListener? listener,
       bool gdprConsent = true,
       bool ccpaConsent = true}) async {
     _listener = listener;
-    _channel.setMethodCallHandler(_listener._handle);
+    _channel.setMethodCallHandler(_listener?._handle);
     await _channel.invokeMethod('initialize', {
       'appKey': appKey,
       'gdprConsent': gdprConsent,
@@ -27,61 +27,61 @@ class IronSource {
     });
   }
 
-  static Future<Null> shouldTrackNetworkState(bool state) async {
+  static Future<dynamic> shouldTrackNetworkState(bool state) async {
     await _channel.invokeMethod('shouldTrackNetworkState', {'state': state});
   }
 
-  static Future<Null> validateIntegration() async {
+  static Future<dynamic> validateIntegration() async {
     await _channel.invokeMethod('validateIntegration');
   }
 
-  static Future<Null> setUserId(String userId) async {
+  static Future<dynamic> setUserId(String userId) async {
     await _channel.invokeMethod('setUserId', {'userId': userId});
   }
 
-  static Future<String> getAdvertiserId() async {
+  static Future<dynamic> getAdvertiserId() async {
     return await _channel.invokeMethod('getAdvertiserId');
   }
 
-  static Future<Null> loadInterstitial() async {
+  static Future<dynamic> loadInterstitial() async {
     await _channel.invokeMethod('loadInterstitial');
   }
 
-  static Future<Null> showInterstitial() async {
+  static Future<dynamic> showInterstitial() async {
     await _channel.invokeMethod('showInterstitial');
   }
 
-  static Future<Null> showRewardedVideo() async {
+  static Future<dynamic> showRewardedVideo() async {
     await _channel.invokeMethod('showRewardedVideo');
   }
 
-  static Future<Null> showOfferwall() async {
+  static Future<dynamic> showOfferwall() async {
     await _channel.invokeMethod('showOfferwall');
   }
 
-  static Future<bool> isInterstitialReady() async {
+  static Future<dynamic> isInterstitialReady() async {
     return await _channel.invokeMethod('isInterstitialReady');
   }
 
-  static Future<Null> activityResumed() async {
+  static Future<dynamic> activityResumed() async {
     await _channel.invokeMethod('activityResumed');
   }
 
-  static Future<Null> activityPaused() async {
+  static Future<dynamic> activityPaused() async {
     await _channel.invokeMethod('activityPaused');
   }
 
-  static Future<bool> isRewardedVideoAvailable() async {
+  static Future<dynamic> isRewardedVideoAvailable() async {
     return await _channel.invokeMethod('isRewardedVideoAvailable');
   }
 
-  static Future<bool> isOfferwallAvailable() async {
+  static Future<dynamic> isOfferwallAvailable() async {
     return await _channel.invokeMethod('isOfferwallAvailable');
   }
 }
 
 abstract class IronSourceListener {
-  Future<Null> _handle(MethodCall call) async {
+  Future<dynamic> _handle(MethodCall call) async {
 //    Rewarded
     if (call.method == ON_REWARDED_VIDEO_AD_CLICKED)
       onRewardedVideoAdClicked(Placement(
