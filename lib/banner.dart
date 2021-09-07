@@ -5,27 +5,50 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'Ironsource_consts.dart';
 
+class BannerSizeType {
+  final String type;
+  static const String BANNER = "BANNER";
+  static const String LARGE = "LARGE";
+  static const String RECTANGLE = "RECTANGLE";
+  static const String LEADERBOARD = "LEADERBOARD";
+  static const SMART = "SMART";
+  static const CUSTOM = "CUSTOM";
+
+  const BannerSizeType({this.type = "CUSTOM"});
+}
+
 class BannerSize {
+  final String type;
   final int width;
   final int height;
 
-  static const BannerSize STANDARD = BannerSize(width: 320, height: 50);
-  static const BannerSize SMALL = BannerSize(width: 300, height: 50);
-  static const BannerSize MEDIUM_RECTANGLE =
-      BannerSize(width: 320, height: 250);
-  const BannerSize({this.width = 320, this.height = 50});
+  static const BannerSize BANNER =
+      BannerSize(type: BannerSizeType.BANNER, width: 320, height: 50);
+  static const BannerSize LARGE =
+      BannerSize(type: BannerSizeType.LARGE, width: 320, height: 90);
+  static const BannerSize RECTANGLE =
+      BannerSize(type: BannerSizeType.RECTANGLE, width: 300, height: 250);
+  static const BannerSize LEADERBOARD =
+      BannerSize(type: BannerSizeType.LEADERBOARD, width: 728, height: 90);
+  static const BannerSize SMART =
+      BannerSize(type: BannerSizeType.SMART, width: 0, height: 0);
+  const BannerSize(
+      {this.type = BannerSizeType.CUSTOM, this.width = 320, this.height = 50});
 }
-
-enum BannerSizeType { STANDARD, MEDIUM_ECTANGLE, LARGE }
 
 class IronSourceBannerAd extends StatefulWidget {
   final Key? key;
   final IronSourceBannerListener? listener;
   final bool keepAlive;
+  final BannerSize size;
+  final Color? backgroundColor;
+
   IronSourceBannerAd({
     this.key,
     this.listener,
     this.keepAlive = false,
+    this.size = BannerSize.BANNER,
+    this.backgroundColor,
   }) : super(key: key);
 
   @override
@@ -39,21 +62,22 @@ class _IronSourceBannerAdState extends State<IronSourceBannerAd>
     return _listener!;
   }
 
-  BannerSize size = BannerSize.STANDARD;
   @override
   Widget build(BuildContext context) {
     super.build(context);
     if (defaultTargetPlatform == TargetPlatform.android) {
       return Container(
-          width: size.width.toDouble(),
-          height: size.height.toDouble(),
+          color: widget.backgroundColor,
+          width: widget.size.width.toDouble(),
+          height: widget.size.height.toDouble(),
           child: AndroidView(
             key: UniqueKey(),
             viewType: BANNER_AD_CHANNEL,
             onPlatformViewCreated: _onBannerAdViewCreated,
             creationParams: <String, dynamic>{
-              "height": size.height,
-              "width": size.width,
+              "banner_type": widget.size.type,
+              "height": widget.size.height,
+              "width": widget.size.width,
             },
             creationParamsCodec: StandardMessageCodec(),
           ));

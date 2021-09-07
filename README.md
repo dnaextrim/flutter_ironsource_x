@@ -162,7 +162,65 @@ _By default gdprConsent and ccpaConsent are true_
 ## Banner
 
 ```dart
-IronSourceBannerAd(keepAlive: true, listener: BannerAdListener())
+IronSourceBannerAd(keepAlive: true, listener: BannerAdListener());
+```
+
+### **Banner Size Type:**
+
+- **BANNER**
+
+```dart
+IronSourceBannerAd(keepAlive: true, listener: BannerAdListener(), size: BannerSize.BANNER);
+```
+
+- **LARGE**
+
+```dart
+IronSourceBannerAd(keepAlive: true, listener: BannerAdListener(), size: BannerSize.LARGE);
+```
+
+- **LEADERBOARD**
+
+```dart
+IronSourceBannerAd(keepAlive: true, listener: BannerAdListener(), size: BannerSize.LEADERBOARD);
+```
+
+- **RECTANGLE**
+
+```dart
+IronSourceBannerAd(keepAlive: true, listener: BannerAdListener(), size: BannerSize.RECTANGLE);
+```
+
+- **SMART**
+
+```dart
+IronSourceBannerAd(keepAlive: true, listener: BannerAdListener(), size: BannerSize.SMART);
+```
+
+- **CUSTOM**
+
+```dart
+IronSourceBannerAd(
+  keepAlive: true,
+  listener: BannerAdListener(),
+  size: BannerSize.BANNER,
+  size: BannerSize(
+      type: BannerSizeType.BANNER,
+      width: 400,
+      height: 50,
+    ),
+);
+```
+
+### **Banner Background Color**
+
+```dart
+IronSourceBannerAd(
+  keepAlive: true,
+  listener: BannerAdListener(),
+  size: BannerSize.BANNER,
+  backgroundColor: Colors.amber, //Background Color
+);
 ```
 
 ```dart
@@ -329,7 +387,7 @@ Add the following inside the `<application>` tag in your AndroidManifest:
 
 please read [this](https://developer.android.com/google/play-services/setup.html) to add google play service
 
-## Mediatin
+## Mediation
 
 follow [this](https://developers.ironsrc.com/ironsource-mobile/android/mediation-networks-android/) to add mediation sdks
 

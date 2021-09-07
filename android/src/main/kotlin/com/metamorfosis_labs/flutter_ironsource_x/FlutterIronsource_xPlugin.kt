@@ -100,7 +100,7 @@ class FlutterIronsource_xPlugin() : FlutterPlugin, MethodCallHandler, ActivityAw
     else
       IronSource.setMetaData("do_not_sell", "true")
 
-    IronSource.init(mActivity, appKey)
+    IronSource.init(mActivity, appKey, IronSource.AD_UNIT.OFFERWALL, IronSource.AD_UNIT.INTERSTITIAL, IronSource.AD_UNIT.REWARDED_VIDEO, IronSource.AD_UNIT.BANNER)
   }// Interstitial Listener
 
   override fun onInterstitialAdClicked() {

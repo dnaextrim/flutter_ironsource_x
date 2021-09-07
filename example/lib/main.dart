@@ -138,7 +138,20 @@ class _MyAppState extends State<MyApp>
                 ? Align(
                     alignment: Alignment.bottomCenter,
                     child: IronSourceBannerAd(
-                        keepAlive: true, listener: BannerAdListener()),
+                      keepAlive: true,
+                      listener: BannerAdListener(),
+                      size: BannerSize.BANNER,
+                      // size: BannerSize.LARGE,
+                      // size: BannerSize.LEADERBOARD,
+                      // size: BannerSize.RECTANGLE,
+                      // size: BannerSize.SMART,
+                      /* size: BannerSize(
+                          type: BannerSizeType.BANNER,
+                          width: 400,
+                          height: 50,
+                        ), */
+                      // backgroundColor: Colors.amber,
+                    ),
                   )
                 : SizedBox()
           ],

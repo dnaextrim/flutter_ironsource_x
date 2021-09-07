@@ -2,6 +2,7 @@ package com.metamorfosis_labs.flutter_ironsource_x
 
 import android.app.Activity
 import android.content.Context
+import android.util.Log
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.LinearLayout
@@ -83,9 +84,14 @@ class IronSourceBannerView internal constructor(context: Context, id: Int, args:
         this.context = context
         adView = FrameLayout(context)
         // choose banner size
-        val size = ISBannerSize.SMART
+        val bannerType = args["banner_type"] as String
         val height = args["height"] as Int
-        val width = args["height"] as Int
+        val width = args["width"] as Int
+        Log.d("BANNER Width", width.toString())
+        Log.d("BANNER Height", height.toString())
+//        val size = ISBannerSize.LARGE
+        val size = ISBannerSize(bannerType, width, height)
+
         val lp = LinearLayout.LayoutParams(width, height)
         // instantiate IronSourceBanner object, using the IronSource.createBanner API
         mIronSourceBannerLayout = IronSource.createBanner(activity, size)
