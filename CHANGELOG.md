@@ -1,3 +1,9 @@
+## 0.0.5
+
+- Fixed init Bug
+- Banner Size Type
+- Update manual for Banner Size Type
+
 ## 0.0.4
 
 - Fixed NullSafety Bug
