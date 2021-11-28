@@ -300,14 +300,14 @@ class FlutterIronsource_xPlugin() : FlutterPlugin, MethodCallHandler, ActivityAw
   }
 
   override fun onDetachedFromActivityForConfigChanges() {
-    TODO("Not yet implemented")
+    //TODO("Not yet implemented")
   }
 
   override fun onReattachedToActivityForConfigChanges(binding: ActivityPluginBinding) {
-    TODO("Not yet implemented")
+    //TODO("Not yet implemented")
   }
 
   override fun onDetachedFromActivity() {
-    TODO("Not yet implemented")
+    //TODO("Not yet implemented")
   }
 }
