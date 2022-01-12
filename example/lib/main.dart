@@ -13,7 +13,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp>
     with IronSourceListener, WidgetsBindingObserver {
   final String appKey =
-      "85460dcd"; // "xxxxxxxx"; // change this with your appKey
+      "85460dcd"; // "85460dcd"; // change this with your appKey
 
   bool rewardeVideoAvailable = false,
       offerwallAvailable = false,
@@ -61,7 +61,7 @@ class _MyAppState extends State<MyApp>
 
   void showInterstitial() async {
     if (await IronSource.isInterstitialReady()) {
-      showHideBanner();
+      // showHideBanner();
       IronSource.showInterstitial();
     } else {
       print(
@@ -72,7 +72,7 @@ class _MyAppState extends State<MyApp>
 
   void showOfferwall() async {
     if (await IronSource.isOfferwallAvailable()) {
-      showHideBanner();
+      // showHideBanner();
       IronSource.showOfferwall();
     } else {
       print("Offerwall not available");
@@ -81,7 +81,7 @@ class _MyAppState extends State<MyApp>
 
   void showRewardedVideo() async {
     if (await IronSource.isRewardedVideoAvailable()) {
-      showHideBanner();
+      // showHideBanner();
       IronSource.showRewardedVideo();
     } else {
       print("RewardedVideo not available");
@@ -159,6 +159,9 @@ class _MyAppState extends State<MyApp>
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   void onInterstitialAdClicked() {

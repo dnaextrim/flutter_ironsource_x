@@ -26,7 +26,7 @@ apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 31
 
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
@@ -40,7 +40,7 @@ android {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "com.metamorfosis_labs.flutter_ironsource_x_example"
         minSdkVersion 21
-        targetSdkVersion 30
+        targetSdkVersion 31
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
     }
@@ -66,7 +66,19 @@ flutter {
     source '../..'
 }
 
+
+repositories {
+    maven {
+        //IronSource
+        url "https://android-sdk.is.com/"
+    }
+}
+
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'com.ironsource.sdk:mediationsdk:7.1.0.2'
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'com.google.android.gms:play-services-ads-identifier:17.0.0'
+    implementation 'androidx.cardview:cardview:1.0.0'
+    implementation 'androidx.multidex:multidex:2.0.1'
+    implementation 'com.ironsource.sdk:mediationsdk:7.1.14'
 }

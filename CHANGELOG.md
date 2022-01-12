@@ -1,3 +1,12 @@
+## 0.0.7
+
+- Upgrade IronSource SDK Version
+- Fixed Admob Bug
+
+## 0.0.6
+
+- Fixed TO DO Bug
+
 ## 0.0.5
 
 - Fixed init Bug

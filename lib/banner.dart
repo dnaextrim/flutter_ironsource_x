@@ -65,6 +65,8 @@ class _IronSourceBannerAdState extends State<IronSourceBannerAd>
   @override
   Widget build(BuildContext context) {
     super.build(context);
+
+    debugPrint("Banner Rerender");
     if (defaultTargetPlatform == TargetPlatform.android) {
       return Container(
           color: widget.backgroundColor,

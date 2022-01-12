@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.LinearLayout
+import android.widget.Toast
 import com.ironsource.mediationsdk.ISBannerSize
 import com.ironsource.mediationsdk.IronSource
 import com.ironsource.mediationsdk.IronSourceBannerLayout
@@ -92,10 +93,68 @@ class IronSourceBannerView internal constructor(context: Context, id: Int, args:
 //        val size = ISBannerSize.LARGE
         val size = ISBannerSize(bannerType, width, height)
 
-        val lp = LinearLayout.LayoutParams(width, height)
+        
+//        val lp = LinearLayout.LayoutParams(width, height)
         // instantiate IronSourceBanner object, using the IronSource.createBanner API
+        Log.d("BANNER COUNT:", adView.childCount.toString())
         mIronSourceBannerLayout = IronSource.createBanner(activity, size)
-        mIronSourceBannerLayout.bannerListener = this
-        loadBanner()
+//        mIronSourceBannerLayout = IronSource.createBanner(this, size)
+//        adView.addView(mIronSourceBannerLayout, 0, lp)
+        // mIronSourceBannerLayout.bannerListener = this
+
+            mIronSourceBannerLayout?.let {
+                // add IronSourceBanner to your container
+                /*val layoutParams = FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,
+                        FrameLayout.LayoutParams.MATCH_PARENT)*/
+
+                // binding.bannerFooter.addView(it, 0, layoutParams)
+                if (adView.childCount > 0) adView.removeAllViews()
+
+                val layoutParams = FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,
+                        FrameLayout.LayoutParams.WRAP_CONTENT)
+                adView.addView(
+                        mIronSourceBannerLayout, 0, layoutParams
+                )
+
+
+                // set the banner listener
+                it.bannerListener = object : BannerListener {
+                    override fun onBannerAdLoaded() {
+                        Log.d(TAG, "onBannerAdLoaded")
+                        // since banner container was "gone" by default, we need to make it visible as soon as the banner is ready
+                        // binding.bannerFooter.visibility = View.VISIBLE
+                        adView.visibility = View.VISIBLE
+                    }
+
+                    override fun onBannerAdLoadFailed(error: IronSourceError) {
+                        Log.d(TAG, "onBannerAdLoadFailed $error")
+                    }
+
+                    override fun onBannerAdClicked() {
+                        Log.d(TAG, "onBannerAdClicked")
+                    }
+
+                    override fun onBannerAdScreenPresented() {
+                        Log.d(TAG, "onBannerAdScreenPresented")
+                    }
+
+                    override fun onBannerAdScreenDismissed() {
+                        Log.d(TAG, "onBannerAdScreenDismissed")
+                    }
+
+                    override fun onBannerAdLeftApplication() {
+                        Log.d(TAG, "onBannerAdLeftApplication")
+                    }
+                }
+
+                // load ad into the created banner
+                IronSource.loadBanner(it)
+
+            } ?: run {
+                Toast.makeText(activity, "IronSource.createBanner returned null", Toast.LENGTH_LONG).show()
+
+            }
+
+        // loadBanner()
     }
 }
