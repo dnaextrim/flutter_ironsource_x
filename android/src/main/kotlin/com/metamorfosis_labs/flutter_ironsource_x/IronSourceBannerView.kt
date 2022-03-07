@@ -18,7 +18,7 @@ import io.flutter.plugin.platform.PlatformView
 import java.util.*
 
 
-class IronSourceBannerView internal constructor(context: Context, id: Int, args: HashMap<*, *>, messenger: BinaryMessenger?, activity: Activity) : PlatformView, BannerListener {
+class IronSourceBannerView internal constructor(context: Context?, id: Int, args: HashMap<*, *>, messenger: BinaryMessenger?, activity: Activity) : PlatformView, BannerListener {
     private val adView: FrameLayout
     private val TAG = "IronSourceBannerView"
     private val channel: MethodChannel
@@ -78,11 +78,11 @@ class IronSourceBannerView internal constructor(context: Context, id: Int, args:
     }
 
     init {
-        channel = MethodChannel(messenger,
+        channel = MethodChannel(messenger!!,
                 IronSourceConsts.BANNER_AD_CHANNEL + id)
         this.activity = activity
         this.args = args
-        this.context = context
+        this.context = context!!
         adView = FrameLayout(context)
         // choose banner size
         val bannerType = args["banner_type"] as String
@@ -118,6 +118,7 @@ class IronSourceBannerView internal constructor(context: Context, id: Int, args:
 
 
                 // set the banner listener
+
                 it.bannerListener = object : BannerListener {
                     override fun onBannerAdLoaded() {
                         Log.d(TAG, "onBannerAdLoaded")
@@ -158,3 +159,4 @@ class IronSourceBannerView internal constructor(context: Context, id: Int, args:
         // loadBanner()
     }
 }
+ 

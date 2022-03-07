@@ -1,10 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="CMakeSettings">
+    <configurations>
+      <configuration PROFILE_NAME="Debug" CONFIG_NAME="Debug" />
+    </configurations>
+  </component>
   <component name="FrameworkDetectionExcludesConfiguration">
     <type id="android" />
   </component>
-  <component name="ProjectRootManager" version="2" project-jdk-name="Android API 26 Platform" project-jdk-type="Android SDK" />
-  <component name="ProjectType">
-    <option name="id" value="io.flutter" />
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true" project-jdk-name="Android API 26 Platform" project-jdk-type="Android SDK" />
+  <component name="SuppressABINotification">
+    <option name="modulesWithSuppressedNotConfigured">
+      <set>
+        <option value="flutter_ironsource_x_android" />
+      </set>
+    </option>
   </component>
 </project>

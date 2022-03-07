@@ -1,3 +1,10 @@
+## 2.7.1
+ - Upgrade IronSource SDK Version
+ - Upgrade Dart Version
+ - Upgrade Kotlin Version
+ - Fixed Banner Example with Provider
+ - Update Readme
+
 ## 0.0.7
 
 - Upgrade IronSource SDK Version

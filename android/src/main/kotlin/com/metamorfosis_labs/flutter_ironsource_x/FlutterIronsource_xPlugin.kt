@@ -4,17 +4,7 @@ import android.app.Activity
 import android.os.Bundle
 import android.util.Log
 import androidx.annotation.NonNull
-/* import com.ironsource.adapters.supersonicads.SupersonicConfig
-import com.ironsource.mediationsdk.IronSource
-import com.ironsource.mediationsdk.integration.IntegrationHelper
-import com.ironsource.mediationsdk.logger.IronSourceError
-import com.ironsource.mediationsdk.model.Placement
-import com.ironsource.mediationsdk.sdk.InterstitialListener
-import com.ironsource.mediationsdk.sdk.OfferwallListener
-import com.ironsource.mediationsdk.sdk.RewardedVideoListener */
-
 import com.ironsource.adapters.supersonicads.SupersonicConfig
-// import com.ironsource.ironsourcesdkdemo.databinding.ActivityDemoBinding
 import com.ironsource.mediationsdk.*
 import com.ironsource.mediationsdk.impressionData.ImpressionData
 import com.ironsource.mediationsdk.impressionData.ImpressionDataListener
@@ -22,8 +12,6 @@ import com.ironsource.mediationsdk.integration.IntegrationHelper
 import com.ironsource.mediationsdk.logger.IronSourceError
 import com.ironsource.mediationsdk.model.Placement
 import com.ironsource.mediationsdk.sdk.*
-import com.ironsource.mediationsdk.utils.IronSourceUtils
-
 
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.embedding.engine.plugins.activity.ActivityAware
@@ -37,7 +25,7 @@ import io.flutter.plugin.common.PluginRegistry
 import java.util.*
 
 /** FlutterIronsource_xPlugin */
-class FlutterIronsource_xPlugin() : FlutterPlugin, MethodCallHandler, ActivityAware, InterstitialListener, RewardedVideoListener, OfferwallListener, ImpressionDataListener {
+class FlutterIronsource_xPlugin: FlutterPlugin, MethodCallHandler, ActivityAware, InterstitialListener, RewardedVideoListener, OfferwallListener, ImpressionDataListener {
   private lateinit var mActivity : Activity
   private lateinit var mChannel : MethodChannel
   private lateinit var messenger: BinaryMessenger
@@ -58,7 +46,11 @@ class FlutterIronsource_xPlugin() : FlutterPlugin, MethodCallHandler, ActivityAw
   override fun onMethodCall(@NonNull call: MethodCall, @NonNull result: Result) {
     if (call.method == IronSourceConsts.INIT && call.hasArgument("appKey")) {
       call.argument<String>("")
-      initialize(call.argument<String>("appKey")!!, call.argument<Boolean>("gdprConsent")!!, call.argument<Boolean>("ccpaConsent")!!)
+      initialize(
+        call.argument<String>("appKey")!!,
+        call.argument<Boolean>("gdprConsent")!!,
+        call.argument<Boolean>("ccpaConsent")!!
+      )
       result.success(null)
     } else if (call.method == IronSourceConsts.LOAD_INTERSTITIAL) {
       IronSource.loadInterstitial()
@@ -115,8 +107,9 @@ class FlutterIronsource_xPlugin() : FlutterPlugin, MethodCallHandler, ActivityAw
 
      IronSource.init(mActivity, appKey, IronSource.AD_UNIT.OFFERWALL, IronSource.AD_UNIT.INTERSTITIAL, IronSource.AD_UNIT.REWARDED_VIDEO, IronSource.AD_UNIT.BANNER)
 //    IronSource.init(mActivity, appKey)
-  }// Interstitial Listener
+  }
 
+  // Interstitial Listener
   override fun onInterstitialAdClicked() {
     mActivity.runOnUiThread { //back on UI thread...
       mChannel.invokeMethod(IronSourceConsts.ON_INTERSTITIAL_AD_CLICKED, null)
@@ -277,6 +270,7 @@ class FlutterIronsource_xPlugin() : FlutterPlugin, MethodCallHandler, ActivityAw
     }
   }
 
+
   /*companion object {
     @JvmStatic
     fun registerWith(registrar: PluginRegistry.Registrar) {
@@ -293,14 +287,15 @@ class FlutterIronsource_xPlugin() : FlutterPlugin, MethodCallHandler, ActivityAw
 
 
 
-  override fun onAttachedToEngine(binding: FlutterPlugin.FlutterPluginBinding) {
-    this.flutterPluginBinding = binding
-    this.mChannel = MethodChannel(binding.binaryMessenger, IronSourceConsts.MAIN_CHANNEL)
+  override fun onAttachedToEngine(@NonNull flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
+    this.flutterPluginBinding = flutterPluginBinding
+    this.mChannel = MethodChannel(flutterPluginBinding.binaryMessenger, IronSourceConsts.MAIN_CHANNEL)
     this.mChannel.setMethodCallHandler(this)
     Log.i("DEBUG","Tesst On Attached")
-    val interstitialAdChannel = MethodChannel(binding.binaryMessenger, IronSourceConsts.INTERSTITIAL_CHANNEL)
+    val interstitialAdChannel = MethodChannel(flutterPluginBinding.binaryMessenger, IronSourceConsts.INTERSTITIAL_CHANNEL)
 //    binding.platformViewRegistry.registerViewFactory(IronSourceConsts.BANNER_AD_CHANNEL, IronSourceBanner(this.mActivity, binding.binaryMessenger))
   }
+
 
   override fun onDetachedFromEngine(@NonNull binding: FlutterPlugin.FlutterPluginBinding) {
     this.mChannel.setMethodCallHandler(null)

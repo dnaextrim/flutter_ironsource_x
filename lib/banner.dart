@@ -43,7 +43,7 @@ class IronSourceBannerAd extends StatefulWidget {
   final BannerSize size;
   final Color? backgroundColor;
 
-  IronSourceBannerAd({
+  const IronSourceBannerAd({
     this.key,
     this.listener,
     this.keepAlive = false,
@@ -81,10 +81,11 @@ class _IronSourceBannerAdState extends State<IronSourceBannerAd>
               "height": widget.size.height,
               "width": widget.size.width,
             },
-            creationParamsCodec: StandardMessageCodec(),
+            creationParamsCodec: const StandardMessageCodec(),
           ));
     } else {
-      return Container(child: Text("this plugin only supported for android"));
+      return Container(
+          child: const Text("this plugin only supported for android"));
     }
   }
 
@@ -100,18 +101,19 @@ class _IronSourceBannerAdState extends State<IronSourceBannerAd>
 
 abstract class IronSourceBannerListener {
   Future<dynamic> _handle(MethodCall call) async {
-    if (call.method == ON_BANNER_AD_CLICKED)
+    if (call.method == ON_BANNER_AD_CLICKED) {
       onBannerAdClicked();
-    else if (call.method == ON_BANNER_AD_LEFT_APPLICATION)
+    } else if (call.method == ON_BANNER_AD_LEFT_APPLICATION) {
       onBannerAdLeftApplication();
-    else if (call.method == ON_BANNER_AD_LOAD_FAILED)
+    } else if (call.method == ON_BANNER_AD_LOAD_FAILED) {
       onBannerAdLoadFailed(call.arguments);
-    else if (call.method == ON_BANNER_AD_LOADED)
+    } else if (call.method == ON_BANNER_AD_LOADED) {
       onBannerAdLoaded();
-    else if (call.method == ON_BANNER_AD_sCREEN_DISMISSED)
+    } else if (call.method == ON_BANNER_AD_sCREEN_DISMISSED) {
       onBannerAdScreenDismissed();
-    else if (call.method == ON_BANNER_AD_SCREEN_PRESENTED)
+    } else if (call.method == ON_BANNER_AD_SCREEN_PRESENTED) {
       onBannerAdScreenPresented();
+    }
   }
 
 //  Banner

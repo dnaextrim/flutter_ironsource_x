@@ -1,17 +1,40 @@
+# flutter_Ironsource_x Ver. 2
+
+In the next version, the version format will be like this
+
+```
+xx.xx.xxxx
+ 🠕  🠕  🠕
+ |  |  Publish Revision
+ |  IronSource SDK Major Version
+ Dart Major Version
+
+ Example:
+ 2.7.1
+ ------------------------------
+ 2 is Dart Major Version
+ 7 is IronSource Major Version
+ 1 is Publish Revision
+```
+
 # IronSource Ads for Flutter
 
 Flutter plugin for showing [IronSource](https://ironsrc.com) ads (Android only)
 
 If this package was helpful to you in delivering on your project or you just wanna to support this project, a cup of coffee would be highly appreciated ;-)
 
+```
+Please support me so I can continue to develop this Plugin. Please support me through Buy me a coffee
+```
+
 [![Buy me a coffee](https://cdn.buymeacoffee.com/buttons/default-green.png)](https://www.buymeacoffee.com/dnaextrim)
 
 ## Progress
 
-- [x] Interstitial
-- [ ] Banner (Still experimenting)
-- [x] Offerwall
-- [x] Rewarded video
+- ✅ Interstitial
+- ✅ Banner (Still experimenting)
+- ✅ Offerwall
+- ✅ Rewarded video
 
 # Using Examples
 
@@ -345,15 +368,43 @@ Add the following activities inside the `<application>` tag in your AndroidManif
             android:theme="@android:style/Theme.Translucent" />
 ```
 
-## Add IronSource SDK
-
-File `build.gradle`:
+## Setting `android/app/build.gradle`:
 
 ```gradle
 dependencies {
-  implementation 'com.ironsource.sdk:mediationsdk:7.0.4.1'
+  implementation 'com.ironsource.sdk:mediationsdk:7.2.1'
   ...
 }
+```
+
+Change `compileSdkVersion` to minimum is `31`
+
+```gradle
+android {
+    compileSdkVersion 31
+    ...
+```
+
+Change `minSdkVersion` to minimum is `21` and `targetSdkkVersion` to minimum is 31
+
+```gradle
+defaultConfig {
+        ...
+        minSdkVersion 21
+        targetSdkVersion 31
+        versionCode flutterVersionCode.toInteger()
+        versionName flutterVersionName
+    }
+```
+
+## Setting `android/build.gradle`
+
+Change `ext.kotlin_version` to minimum is `1.6.10`
+
+```gradle
+buildscript {
+    ext.kotlin_version = '1.6.10'
+    ...
 ```
 
 ## add Google Play Services
@@ -390,6 +441,12 @@ Add the following inside the `<application>` tag in your AndroidManifest:
 ```
 
 please read [this](https://developer.android.com/google/play-services/setup.html) to add google play service
+
+# Note
+
+```
+Make sure each widget for the Ironsource Plugin is placed on a different widget from the main or screen widget, this is to avoid collisions with the banner widget if you want the banner widget to work. For more details on how to use please see the sample source code
+```
 
 ## Mediation
 

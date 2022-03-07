@@ -13,11 +13,12 @@ class IronSource {
     return _listener!;
   }
 
-  static FutureOr<dynamic> initialize(
-      {final String? appKey,
-      final IronSourceListener? listener,
-      bool gdprConsent = true,
-      bool ccpaConsent = true}) async {
+  static FutureOr<dynamic> initialize({
+    final String? appKey,
+    final IronSourceListener? listener,
+    bool gdprConsent = true,
+    bool ccpaConsent = true,
+  }) async {
     _listener = listener;
     _channel.setMethodCallHandler(_listener?._handle);
     await _channel.invokeMethod('initialize', {
@@ -81,119 +82,178 @@ class IronSource {
 }
 
 abstract class IronSourceListener {
+  @override
   Future<dynamic> _handle(MethodCall call) async {
-//    Rewarded
-    if (call.method == ON_REWARDED_VIDEO_AD_CLICKED)
+    if (call.method == ON_INTERSTITIAL_AD_CLICKED) {
+      onInterstitialAdClicked();
+    } else if (call.method == ON_INTERSTITIAL_AD_CLOSED) {
+      onInterstitialAdClosed();
+    } else if (call.method == ON_INTERSTITIAL_AD_OPENED) {
+      onInterstitialAdOpened();
+    } else if (call.method == ON_INTERSTITIAL_AD_READY) {
+      onInterstitialAdReady();
+    } else if (call.method == ON_INTERSTITIAL_AD_SHOW_SUCCEEDED) {
+      onInterstitialAdShowSucceeded();
+    } else if (call.method == ON_INTERSTITIAL_AD_LOAD_FAILED) {
+      onInterstitialAdLoadFailed(IronSourceError(
+          errorCode: call.arguments["errorCode"],
+          errorMessage: call.arguments["errorMessage"]));
+    } else if (call.method == ON_INTERSTITIAL_AD_SHOW_FAILED) {
+      onInterstitialAdShowFailed(IronSourceError(
+          errorCode: call.arguments["errorCode"],
+          errorMessage: call.arguments["errorMessage"]));
+    } else if (call.method == ON_REWARDED_VIDEO_AD_CLICKED) {
       onRewardedVideoAdClicked(Placement(
           placementId: call.arguments["placementid"],
           placementName: call.arguments["placementName"],
           rewardAmount: call.arguments["rewardAmount"],
           rewardName: call.arguments["rewardName"]));
-    else if (call.method == ON_REWARDED_VIDEO_AD_CLOSED)
+    } else if (call.method == ON_REWARDED_VIDEO_AD_CLOSED) {
       onRewardedVideoAdClosed();
-    else if (call.method == ON_REWARDED_VIDEO_AD_ENDED)
+    } else if (call.method == ON_REWARDED_VIDEO_AD_ENDED) {
       onRewardedVideoAdEnded();
-    else if (call.method == ON_REWARDED_VIDEO_AD_OPENED)
+    } else if (call.method == ON_REWARDED_VIDEO_AD_OPENED) {
       onRewardedVideoAdOpened();
-    else if (call.method == ON_REWARDED_VIDEO_AD_REWARDED)
+    } else if (call.method == ON_REWARDED_VIDEO_AD_REWARDED) {
       onRewardedVideoAdRewarded(Placement(
           placementId: call.arguments["placementid"],
           placementName: call.arguments["placementName"],
           rewardAmount: call.arguments["rewardAmount"],
           rewardName: call.arguments["rewardName"]));
-    else if (call.method == ON_REWARDED_VIDEO_AD_SHOW_FAILED)
+    } else if (call.method == ON_REWARDED_VIDEO_AD_SHOW_FAILED) {
       onRewardedVideoAdShowFailed(
         IronSourceError(
             errorCode: call.arguments["errorCode"],
             errorMessage: call.arguments["errorMessage"]),
       );
-    else if (call.method == ON_REWARDED_VIDEO_AVAILABILITY_CHANGED)
+    } else if (call.method == ON_REWARDED_VIDEO_AVAILABILITY_CHANGED) {
       onRewardedVideoAvailabilityChanged(call.arguments);
-    else if (call.method == ON_REWARDED_VIDEO_AD_STARTED)
+    } else if (call.method == ON_REWARDED_VIDEO_AD_STARTED) {
       onRewardedVideoAdStarted();
-// Offerwall
-    else if (call.method == ON_OFFERWALL_AD_CREDITED)
+    } else if (call.method == ON_OFFERWALL_AD_CREDITED) {
       onOfferwallAdCredited(OfferwallCredit(
           credits: call.arguments["credits"],
           totalCredits: call.arguments["totalCredits"],
           totalCreditsFlag: call.arguments["totalCreditsFlag"]));
-    else if (call.method == ON_OFFERWALL_AVAILABLE)
+    } else if (call.method == ON_OFFERWALL_AVAILABLE) {
       onOfferwallAvailable(call.arguments);
-    else if (call.method == ON_OFFERWALL_CLOSED)
+    } else if (call.method == ON_OFFERWALL_CLOSED) {
       onOfferwallClosed();
-    else if (call.method == ON_OFFERWALL_CREDITS_FAILED)
+    } else if (call.method == ON_OFFERWALL_CREDITS_FAILED) {
       onGetOfferwallCreditsFailed(IronSourceError(
           errorCode: call.arguments["errorCode"],
           errorMessage: call.arguments["errorMessage"]));
-    else if (call.method == ON_OFFERWALL_OPENED)
+    } else if (call.method == ON_OFFERWALL_OPENED) {
       onOfferwallOpened();
-    else if (call.method == ON_OFFERWALL_SHOW_FAILED)
+    } else if (call.method == ON_OFFERWALL_SHOW_FAILED) {
       onOfferwallShowFailed(IronSourceError(
           errorCode: call.arguments["errorCode"],
           errorMessage: call.arguments["errorMessage"]));
-//    interstitial
-    else if (call.method == ON_INTERSTITIAL_AD_CLICKED)
-      onInterstitialAdClicked();
-    else if (call.method == ON_INTERSTITIAL_AD_CLOSED)
-      onInterstitialAdClosed();
-    else if (call.method == ON_INTERSTITIAL_AD_OPENED)
-      onInterstitialAdOpened();
-    else if (call.method == ON_INTERSTITIAL_AD_READY)
-      onInterstitialAdReady();
-    else if (call.method == ON_INTERSTITIAL_AD_SHOW_SUCCEEDED)
-      onInterstitialAdShowSucceeded();
-    else if (call.method == ON_INTERSTITIAL_AD_LOAD_FAILED)
-      onInterstitialAdLoadFailed(IronSourceError(
-          errorCode: call.arguments["errorCode"],
-          errorMessage: call.arguments["errorMessage"]));
-    else if (call.method == ON_INTERSTITIAL_AD_SHOW_FAILED)
-      onInterstitialAdShowFailed(IronSourceError(
-          errorCode: call.arguments["errorCode"],
-          errorMessage: call.arguments["errorMessage"]));
+    }
   }
 
-  //  Rewarded video
-  void onRewardedVideoAdOpened();
+  @override
+  void onGetOfferwallCreditsFailed(IronSourceError error) {
+    // TODO: implement onGetOfferwallCreditsFailed
+  }
 
-  void onRewardedVideoAdClosed();
+  @override
+  void onInterstitialAdClicked() {
+    // TODO: implement onInterstitialAdClicked
+  }
 
-  void onRewardedVideoAvailabilityChanged(bool available);
+  @override
+  void onInterstitialAdClosed() {
+    // TODO: implement onInterstitialAdClosed
+  }
 
-  void onRewardedVideoAdStarted();
+  @override
+  void onInterstitialAdLoadFailed(IronSourceError error) {
+    // TODO: implement onInterstitialAdLoadFailed
+  }
 
-  void onRewardedVideoAdEnded();
+  @override
+  void onInterstitialAdOpened() {
+    // TODO: implement onInterstitialAdOpened
+  }
 
-  void onRewardedVideoAdRewarded(Placement placement);
+  @override
+  void onInterstitialAdReady() {
+    // TODO: implement onInterstitialAdReady
+  }
 
-  void onRewardedVideoAdShowFailed(IronSourceError error);
+  @override
+  void onInterstitialAdShowFailed(IronSourceError error) {
+    // TODO: implement onInterstitialAdShowFailed
+  }
 
-  void onRewardedVideoAdClicked(Placement placement);
+  @override
+  void onInterstitialAdShowSucceeded() {
+    // TODO: implement onInterstitialAdShowSucceeded
+  }
 
-  // Offer wall
-  void onOfferwallAvailable(bool available);
+  @override
+  void onOfferwallAdCredited(OfferwallCredit reward) {
+    // TODO: implement onOfferwallAdCredited
+  }
 
-  void onOfferwallOpened();
+  @override
+  void onOfferwallAvailable(bool available) {
+    // TODO: implement onOfferwallAvailable
+  }
 
-  void onOfferwallShowFailed(IronSourceError error);
+  @override
+  void onOfferwallClosed() {
+    // TODO: implement onOfferwallClosed
+  }
 
-  void onOfferwallAdCredited(OfferwallCredit reward);
+  @override
+  void onOfferwallOpened() {
+    // TODO: implement onOfferwallOpened
+  }
 
-  void onGetOfferwallCreditsFailed(IronSourceError error);
+  @override
+  void onOfferwallShowFailed(IronSourceError error) {
+    // TODO: implement onOfferwallShowFailed
+  }
 
-  void onOfferwallClosed();
+  @override
+  void onRewardedVideoAdClicked(Placement placement) {
+    // TODO: implement onRewardedVideoAdClicked
+  }
 
-  // Interstitial
-  void onInterstitialAdClicked();
+  @override
+  void onRewardedVideoAdClosed() {
+    // TODO: implement onRewardedVideoAdClosed
+  }
 
-  void onInterstitialAdReady();
+  @override
+  void onRewardedVideoAdEnded() {
+    // TODO: implement onRewardedVideoAdEnded
+  }
 
-  void onInterstitialAdLoadFailed(IronSourceError error);
+  @override
+  void onRewardedVideoAdOpened() {
+    // TODO: implement onRewardedVideoAdOpened
+  }
 
-  void onInterstitialAdOpened();
+  @override
+  void onRewardedVideoAdRewarded(Placement placement) {
+    // TODO: implement onRewardedVideoAdRewarded
+  }
 
-  void onInterstitialAdClosed();
+  @override
+  void onRewardedVideoAdShowFailed(IronSourceError error) {
+    // TODO: implement onRewardedVideoAdShowFailed
+  }
 
-  void onInterstitialAdShowSucceeded();
+  @override
+  void onRewardedVideoAdStarted() {
+    // TODO: implement onRewardedVideoAdStarted
+  }
 
-  void onInterstitialAdShowFailed(IronSourceError error);
+  @override
+  void onRewardedVideoAvailabilityChanged(bool available) {
+    // TODO: implement onRewardedVideoAvailabilityChanged
+  }
 }
