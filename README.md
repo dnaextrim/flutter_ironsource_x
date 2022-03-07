@@ -11,9 +11,10 @@
 ## Offerwall
 
 ![Offerwall](https://images.metamorfosis-labs.com/public/uploads/small/6bafb6a0965026111f2ea59baa772a6a@2x.png)
-In the next version, the version format will be like this
 
 ---
+
+In the next version, the version format will be like this
 
 ```
 xx.xx.xxxx
