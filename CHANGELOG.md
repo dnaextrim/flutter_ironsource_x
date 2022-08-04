@@ -1,3 +1,8 @@
+## 2.7.2
+ - Upgrade IronSource SDK Version
+ - Upgrade Unity version to 4.1
+ - Update Readme
+
 ## 2.7.1
  - Upgrade IronSource SDK Version
  - Upgrade Dart Version
