@@ -1,3 +1,6 @@
+## 2.7.3
+ - Upgrade AndroidSDK to 33
+
 ## 2.7.2
  - Upgrade IronSource SDK Version
  - Upgrade Unity version to 4.1
