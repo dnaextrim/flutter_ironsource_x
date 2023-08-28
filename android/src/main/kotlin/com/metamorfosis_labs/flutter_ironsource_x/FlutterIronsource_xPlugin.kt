@@ -223,9 +223,9 @@ class FlutterIronsource_xPlugin: FlutterPlugin, MethodCallHandler, ActivityAware
   }
 
   // --------- IronSource Offerwall Listener ---------
-  override fun onOfferwallAvailable(available: Boolean) {
+  override fun onOfferwallAvailable(isAvailable: Boolean) {
     mActivity.runOnUiThread { //back on UI thread...
-      mChannel.invokeMethod(IronSourceConsts.ON_OFFERWALL_AVAILABLE, available)
+      mChannel.invokeMethod(IronSourceConsts.ON_OFFERWALL_AVAILABLE, isAvailable)
     }
   }
 
@@ -235,11 +235,11 @@ class FlutterIronsource_xPlugin: FlutterPlugin, MethodCallHandler, ActivityAware
     }
   }
 
-  override fun onOfferwallShowFailed(ironSourceError: IronSourceError) {
+  override fun onOfferwallShowFailed(error: IronSourceError) {
     mActivity.runOnUiThread {
       val arguments = HashMap<String, Any>()
-      arguments["errorCode"] = ironSourceError.errorCode
-      arguments["errorMessage"] = ironSourceError.errorMessage
+      arguments["errorCode"] = error.errorCode
+      arguments["errorMessage"] = error.errorMessage
       mChannel.invokeMethod(IronSourceConsts.ON_OFFERWALL_SHOW_FAILED, arguments)
     }
   }
@@ -252,14 +252,14 @@ class FlutterIronsource_xPlugin: FlutterPlugin, MethodCallHandler, ActivityAware
       arguments["totalCreditsFlag"] = totalCreditsFlag
       mChannel.invokeMethod(IronSourceConsts.ON_OFFERWALL_AD_CREDITED, arguments)
     }
-    return false
+    return true
   }
 
-  override fun onGetOfferwallCreditsFailed(ironSourceError: IronSourceError) {
+  override fun onGetOfferwallCreditsFailed(error: IronSourceError) {
     mActivity.runOnUiThread {
       val arguments = HashMap<String, Any>()
-      arguments["errorCode"] = ironSourceError.errorCode
-      arguments["errorMessage"] = ironSourceError.errorMessage
+      arguments["errorCode"] = error.errorCode
+      arguments["errorMessage"] = error.errorMessage
       mChannel.invokeMethod(IronSourceConsts.ON_OFFERWALL_CREDITS_FAILED, arguments)
     }
   }

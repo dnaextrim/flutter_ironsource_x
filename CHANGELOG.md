@@ -1,4 +1,8 @@
 ## 2.7.3
+ - Upgrade AndroidSDK to 34
+ - Upgrade IronSource SDK Version
+
+## 2.7.3
  - Upgrade AndroidSDK to 33
 
 ## 2.7.2
